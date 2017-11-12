@@ -1,0 +1,11 @@
+.. image:: https://badge.fury.io/py/pingparsing.svg
+    :target: https://badge.fury.io/py/pingparsing
+
+.. image:: https://img.shields.io/travis/thombashi/pingparsing/master.svg?label=Linux
+    :target: https://travis-ci.org/thombashi/pingparsing
+
+.. image:: https://img.shields.io/appveyor/ci/thombashi/pingparsing/master.svg?label=Windows
+    :target: https://ci.appveyor.com/project/thombashi/pingparsing
+
+.. image:: https://img.shields.io/github/stars/thombashi/pingparsing.svg?style=social&label=Star
+   :target: https://github.com/thombashi/pingparsing

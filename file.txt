@@ -1,0 +1,2 @@
+google.com,184,48
+facebook.com,184,48
