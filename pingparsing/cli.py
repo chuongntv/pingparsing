@@ -175,7 +175,7 @@ def main():
                         with open(dest_or_file, "r") as ins:
                             for line in ins:
                                 future_list.append(executor.submit(
-                                    parse_ping, logger, line.strip('\n'), options.interface))
+                                    parse_ping, logger, line.strip('\r\n').strip('\n'), options.interface))
                     else:
                         future_list.append(executor.submit(
                             parse_ping, logger, dest_or_file, options.interface))
