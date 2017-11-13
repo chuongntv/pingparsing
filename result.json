@@ -1,0 +1,28 @@
+{
+    "google.com,184,48": {
+        "packet_loss_count": 0, 
+        "packet_receive": 3, 
+        "packet_loss_rate": 0.0, 
+        "rtt_avg": 45.512, 
+        "destination": "google.com", 
+        "packet_transmit": 3, 
+        "packet_duplicate_rate": null, 
+        "rtt_min": 43.246, 
+        "rtt_max": 47.518, 
+        "packet_duplicate_count": null, 
+        "rtt_mdev": 1.754
+    }, 
+    "facebook.com,184,48": {
+        "packet_loss_count": 0, 
+        "packet_receive": 3, 
+        "packet_loss_rate": 0.0, 
+        "rtt_avg": 35.771, 
+        "destination": "facebook.com", 
+        "packet_transmit": 3, 
+        "packet_duplicate_rate": null, 
+        "rtt_min": 34.857, 
+        "rtt_max": 37.055, 
+        "packet_duplicate_count": null, 
+        "rtt_mdev": 0.935
+    }
+}

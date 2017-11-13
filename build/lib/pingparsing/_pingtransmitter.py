@@ -95,12 +95,13 @@ class PingTransmitter(object):
     def __init__(self):
         self.destination_host = ""
         self.deadline = None
-        self.count = None
+        self.count = 5
         self.ping_option = ""
         self.interface = None
         self.auto_codepage = True
         self.tos = 0
         self.packet_size = 8
+        self.num_count = 5
 
     def ping(self):
         """
@@ -207,7 +208,7 @@ class PingTransmitter(object):
 
         command_list.extend([
             self.__get_builtin_ping_command(),
-            self.__get_deadline_option(),
+            # self.__get_deadline_option(),
             self.__get_count_option(),
             self.__get_quiet_option(),
             self.__get_tos_option(),

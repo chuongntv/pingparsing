@@ -56,11 +56,11 @@ def parse_option():
         help="suppress execution log messages.")
 
     group = parser.add_argument_group("Ping Options")
-    group.add_argument(
-        "-c", "--count", type=int,
-        help="""stop after sending the count.
-        see also ping(8) [-c count] option description.
-        """)
+    # group.add_argument(
+    #     "-c", "--count", type=int,
+    #     help="""stop after sending the count.
+    #     see also ping(8) [-c count] option description.
+    #     """)
     group.add_argument(
         "-w", "--deadline", type=float,
         help="""timeout in seconds.
@@ -97,18 +97,34 @@ def is_use_stdin():
     return sys.stdin.isatty() or len(sys.argv) > 1
 
 
-def parse_ping(logger, dest_or_file, interface, count, deadline):
+def parse_ping(logger, dest_or_file, interface):
 
     data = dest_or_file.split(",")
     transmitter = pingparsing.PingTransmitter()
-    transmitter.destination_host = data[0]
+    if len(data) > 0:
+        transmitter.destination_host = data[0]
+    else:
+        transmitter.destination_host = "localhost"
     transmitter.interface = interface
-    transmitter.count = count
-    transmitter.deadline = deadline
-    transmitter.tos = data[1]
-    transmitter.packet_size = data[2]
+
+    if len(data) > 1:
+        transmitter.tos = data[1]
+    else:
+        transmitter.tos = 0
+
+    if len(data) > 2:
+        transmitter.packet_size = data[2]
+    else:
+        transmitter.packet_size = 56
+
+    if len(data) > 3:
+        transmitter.count = data[3]
+    else:
+        transmitter.count = 3
+
     result = transmitter.ping()
     ping_result_text = result.stdout
+
     if result.returncode != 0:
         logger.error(result.stderr)
 
@@ -145,9 +161,9 @@ def main():
 
         max_workers = (multiprocessing.cpu_count() * 2
                        if options.max_workers is None else options.max_workers)
-        count, deadline = get_ping_param(options)
-        logger.debug("max-workers={}, count={}, deadline={}".format(
-            max_workers, count, deadline))
+        # count, deadline = get_ping_param(options)
+        # logger.debug("max-workers={}, count={}, deadline={}".format(
+        #     max_workers, count, deadline))
 
         try:
             with futures.ProcessPoolExecutor(max_workers) as executor:
@@ -159,12 +175,10 @@ def main():
                         with open(dest_or_file, "r") as ins:
                             for line in ins:
                                 future_list.append(executor.submit(
-                                    parse_ping, logger, line.strip('\n'), options.interface,
-                                    count, deadline))
+                                    parse_ping, logger, line.strip('\n'), options.interface))
                     else:
                         future_list.append(executor.submit(
-                            parse_ping, logger, dest_or_file, options.interface,
-                            count, deadline))
+                            parse_ping, logger, dest_or_file, options.interface))
 
                 for future in futures.as_completed(future_list):
                     key, ping_data = future.result()
